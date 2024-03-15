@@ -2,9 +2,7 @@ package ru.se4oev;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,6 +43,46 @@ class CastUtilsTest {
                 assertThrows(ClassCastException.class, () -> CastUtils.checkedListCast(list, String.class));
 
         assertEquals("Cannot cast class java.lang.Integer to class java.lang.String", exception.getMessage());
+    }
+
+    @Test
+    void mapStringObjectToRawMap() {
+        List<Map<String, Object>> list = stringObjectMap();
+
+        Object input = list;
+        List<Map> maps = CastUtils.checkedListCast(input, Map.class);
+        assertNotNull(maps);
+        assertEquals(3, maps.size());
+    }
+
+    @Test
+    void mapStringObject() {
+        List<Map<String, Object>> list = stringObjectMap();
+        Object input = list;
+
+        List<Map<String, Object>> result = CastUtils.listOfMapCheckedCast(input, String.class, Object.class);
+        assertNotNull(result);
+        assertEquals(3, result.size());
+    }
+
+    private List<Map<String, Object>> stringObjectMap() {
+        return Arrays.asList(
+                new HashMap<String, Object>() {{
+                    put("id", 1L);
+                    put("text", "call");
+                    put("ids", "5553535");
+                }},
+                new HashMap<String, Object>() {{
+                    put("id", 2L);
+                    put("text", "call");
+                    put("ids", "5553535");
+                }},
+                new HashMap<String, Object>() {{
+                    put("id", 3L);
+                    put("text", "call");
+                    put("ids", "5553535");
+                }}
+        );
     }
 
 }
